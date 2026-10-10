@@ -70,43 +70,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      // 2. If profile missing, upsert it (handles edge case where trigger didn't fire)
+      // 2. Profile must be pre-created by Admin via DB triggers or Admin panel
       if (!profileData) {
-        console.warn('Profile missing for user, upserting...');
-        const { data: upserted, error: upsertError } = await supabase
-          .from('profiles')
-          .upsert({
-            id: currentUser.id,
-            email: currentUser.email || '',
-            full_name: currentUser.user_metadata?.full_name || currentUser.email || '',
-            role: 'reception' as AppRole,
-            is_active: true,
-          }, { onConflict: 'id' })
-          .select('*')
-          .single();
-
-        if (upsertError) {
-          console.error('Profile upsert error:', upsertError.message);
-          setLastError(`Profil yaratish: ${upsertError.message}`);
-          clearTimeout(timeout);
-          setProfileLoading(false);
-          return;
-        }
-        profileData = upserted;
+        setLastError("Foydalanuvchi profili topilmadi yoki tasdiqlanmagan. Administrator bilan bog'laning.");
+        setProfile(null);
+        setRole(null);
+        setProfileRowFound(false);
+        clearTimeout(timeout);
+        setProfileLoading(false);
+        return;
       }
 
-      if (profileData) {
-        const p = profileData as Profile;
+      const p = profileData as Profile;
+      if (!p.is_active) {
+        setLastError("Ushbu hisob administrator tomonidan nofaol qilingan.");
         setProfile(p);
-        setProfileRowFound(true);
-        setRole(p.role || null);
-        if (!p.role) {
-          console.warn('No role found for user', currentUser.id);
-          setLastError('Admin rolni tayinlamagan');
-        }
-      } else {
-        setLastError('Admin rolni tayinlamagan');
         setRole(null);
+        setProfileRowFound(true);
+        clearTimeout(timeout);
+        setProfileLoading(false);
+        return;
+      }
+
+      setProfile(p);
+      setProfileRowFound(true);
+      setRole(p.role || null);
+      if (!p.role) {
+        console.warn('No role found for user', currentUser.id);
+        setLastError('Admin rolni tayinlamagan');
       }
     } catch (err: any) {
       console.error('fetchAndProvisionProfile exception:', err);

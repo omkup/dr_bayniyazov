@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DashboardLayout from '@/components/DashboardLayout';
 import { supabase } from '@/integrations/supabase/client';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -8,11 +9,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Search, Pencil, Trash2, Download, FileSpreadsheet } from 'lucide-react';
+import { Search, Pencil, Trash2, Download, FileSpreadsheet, FolderClock, Eye } from 'lucide-react';
 import { toast } from 'sonner';
 import { exportToExcel } from '@/lib/export-utils';
 
 const AdminPatients = () => {
+  const navigate = useNavigate();
   const [patients, setPatients] = useState<any[]>([]);
   const [search, setSearch] = useState('');
   const [editPatient, setEditPatient] = useState<any>(null);
@@ -111,21 +113,36 @@ const AdminPatients = () => {
               <TableHead>JSHSHIR</TableHead>
               <TableHead>Jinsi</TableHead>
               <TableHead>Manzil</TableHead>
-              <TableHead></TableHead>
+              <TableHead className="text-right">Tibbiy karta va Amallar</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {patients.map(p => (
-              <TableRow key={p.id}>
-                <TableCell className="font-medium">{p.full_name}</TableCell>
+              <TableRow key={p.id} className="hover:bg-muted/40 transition-colors">
+                <TableCell className="font-semibold cursor-pointer text-primary hover:underline" onClick={() => navigate(`/admin/patients/${p.id}/history`)}>
+                  {p.full_name}
+                </TableCell>
                 <TableCell>{p.phone}</TableCell>
                 <TableCell className="text-muted-foreground">{p.jshshir || '—'}</TableCell>
                 <TableCell>{p.gender === 'male' ? 'Erkak' : p.gender === 'female' ? 'Ayol' : '—'}</TableCell>
                 <TableCell className="text-muted-foreground">{p.address || '—'}</TableCell>
-                <TableCell>
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="icon" onClick={() => openEdit(p)}><Pencil className="w-4 h-4" /></Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(p)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
+                <TableCell className="text-right">
+                  <div className="flex gap-1.5 justify-end items-center">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="h-8 text-xs font-medium text-primary border-primary/30 hover:bg-primary/10"
+                      onClick={() => navigate(`/admin/patients/${p.id}/history`)}
+                    >
+                      <FolderClock className="w-3.5 h-3.5 mr-1 text-primary" />
+                      Tarix va fotolar
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openEdit(p)} title="Tahrirlash">
+                      <Pencil className="w-3.5 h-3.5" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:bg-destructive/10" onClick={() => handleDelete(p)} title="O'chirish">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </Button>
                   </div>
                 </TableCell>
               </TableRow>

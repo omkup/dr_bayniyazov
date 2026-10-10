@@ -1,73 +1,49 @@
-# Welcome to your Lovable project
+# StomaCRM — Stomatologiya Klinikasi EMR va Boshqaruv Tizimi
 
-## Project info
+Stomatologiya klinikalari uchun mo'ljallangan zamonaviy, tezkor va xavfsiz elektron qabul, odontogramma (tish xaritasi) va moliya boshqaruvi tizimi.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Texnologiyalar (Tech Stack)
+- **Frontend**: React 18, TypeScript, Vite (SWC)
+- **UI & Dizayn**: Tailwind CSS, Radix UI (Shadcn/UI), Lucide Icons
+- **Backend & Baza**: Supabase (PostgreSQL, Auth, RLS, Storage, Edge Functions)
+- **Kesh & State**: TanStack React Query, React Context
+- **PWA**: iPad / planshet va mobil qurilmalarda mustaqil (standalone) ilova sifatida ishlash imkoniyati
+- **Eksport**: Excel va CSV hisobotlari
 
-## How can I edit this code?
+## 👥 Rollar va Huquqlar (RBAC)
+1. **Administrator (`admin`)**:
+   - Foydalanuvchilarni qo'shish va parolini yangilash (xodimlar boshqaruvi)
+   - Narxlar va xizmatlar ro'yxati
+   - Barcha buyurtmalar, hisobotlar va umumiy qarzlar monitoringi
+2. **Registratura (`reception`)**:
+   - Bemorlar ro'yxati va anketasi
+   - Shifokorlar bandligi taqvimi (intervalli jadval)
+   - Yangi qabul yozish va navbatni shifokorga yo'naltirish
+3. **Shifokor (`doctor`)**:
+   - Bemor qabullari va ko'rik
+   - Interaktiv tish xaritasi (FDI tish raqamlash)
+   - Rentgen va fotosuratlarni yuklash
+   - To'lov va muolajalar kiritish
 
-There are several ways of editing your application.
+## ⚙️ Mahalliy ishga tushirish (Local Setup)
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+1. Bog'liqliklarni o'rnatish:
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+npm install
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. `.env` faylini sozlash:
+```env
+VITE_SUPABASE_URL="https://your-project.supabase.co"
+VITE_SUPABASE_ANON_KEY="your-anon-key"
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Dasturni ishga tushirish:
+```sh
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+4. Build qilish:
+```sh
+npm run build
+```

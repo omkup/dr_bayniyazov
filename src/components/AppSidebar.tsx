@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import {
   Stethoscope, Users, UserPlus, Search, ClipboardList,
-  Activity, Settings, BarChart3, Package, LogOut, Home, Banknote
+  Activity, Settings, BarChart3, Package, LogOut, Home, Banknote, Calendar
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -30,6 +30,7 @@ const menuByRole = {
   ],
   reception: [
     { label: 'Bosh sahifa', icon: Home, path: '/reception' },
+    { label: 'Qabullar taqvimi', icon: Calendar, path: '/reception/calendar' },
     { label: 'Bemor qo\'shish', icon: UserPlus, path: '/reception/patients/new' },
     { label: 'Bemor qidirish', icon: Search, path: '/reception/patients' },
     { label: 'Yangi buyurtma', icon: ClipboardList, path: '/reception/orders/new' },
@@ -58,12 +59,12 @@ const AppSidebar = () => {
     <Sidebar>
       <SidebarHeader className="p-4 border-b border-sidebar-border">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg stoma-gradient flex items-center justify-center">
-            <Stethoscope className="w-5 h-5 text-primary-foreground" />
+          <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shadow-sm border border-sidebar-border overflow-hidden shrink-0">
+            <img src="/logo-icon.png" alt="DR.BAYNIYAZOV" className="w-full h-full object-contain" />
           </div>
           <div className="min-w-0">
-            <p className="font-semibold text-sm text-sidebar-primary-foreground truncate">StomaCRM</p>
-            <p className="text-[11px] text-sidebar-foreground/60">Elektron Qabul</p>
+            <p className="font-bold text-sm text-sidebar-primary-foreground tracking-wide truncate">DR.BAYNIYAZOV</p>
+            <p className="text-[10px] uppercase tracking-wider font-semibold text-sidebar-foreground/70 truncate">Stomatologiya</p>
           </div>
         </div>
       </SidebarHeader>

@@ -8,7 +8,6 @@ import AuthDebugBanner from "@/components/AuthDebugBanner";
 
 import Index from "./pages/Index";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
 
 // Admin
@@ -20,6 +19,7 @@ import AdminPatients from "./pages/admin/AdminPatients";
 import AdminReports from "./pages/admin/AdminReports";
 import AdminDebts from "./pages/admin/AdminDebts";
 import AdminRecovery from "./pages/admin/AdminRecovery";
+import PatientMedicalHistory from "./pages/admin/PatientMedicalHistory";
 
 // Reception
 import ReceptionDashboard from "./pages/reception/ReceptionDashboard";
@@ -27,6 +27,7 @@ import PatientForm from "./pages/reception/PatientForm";
 import PatientsList from "./pages/reception/PatientsList";
 import OrderForm from "./pages/reception/OrderForm";
 import OrdersList from "./pages/reception/OrdersList";
+import AppointmentsCalendar from "./pages/reception/AppointmentsCalendar";
 
 // Doctor
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
@@ -54,7 +55,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Navigate to="/login" replace />} />
 
             {/* Admin */}
             <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminDashboard /></ProtectedRoute>} />
@@ -62,12 +63,14 @@ const App = () => (
             <Route path="/admin/services" element={<ProtectedRoute allowedRoles={['admin']}><ServicesManagement /></ProtectedRoute>} />
             <Route path="/admin/orders" element={<ProtectedRoute allowedRoles={['admin']}><AdminOrders /></ProtectedRoute>} />
             <Route path="/admin/patients" element={<ProtectedRoute allowedRoles={['admin']}><AdminPatients /></ProtectedRoute>} />
+            <Route path="/admin/patients/:id/history" element={<ProtectedRoute allowedRoles={['admin']}><PatientMedicalHistory /></ProtectedRoute>} />
             <Route path="/admin/reports" element={<ProtectedRoute allowedRoles={['admin']}><AdminReports /></ProtectedRoute>} />
             <Route path="/admin/debts" element={<ProtectedRoute allowedRoles={['admin']}><AdminDebts /></ProtectedRoute>} />
             <Route path="/admin/recovery" element={<AdminRecovery />} />
 
             {/* Reception */}
             <Route path="/reception" element={<ProtectedRoute allowedRoles={['reception']}><ReceptionDashboard /></ProtectedRoute>} />
+            <Route path="/reception/calendar" element={<ProtectedRoute allowedRoles={['reception']}><AppointmentsCalendar /></ProtectedRoute>} />
             <Route path="/reception/patients/new" element={<ProtectedRoute allowedRoles={['reception']}><PatientForm /></ProtectedRoute>} />
             <Route path="/reception/patients" element={<ProtectedRoute allowedRoles={['reception']}><PatientsList /></ProtectedRoute>} />
             <Route path="/reception/orders/new" element={<ProtectedRoute allowedRoles={['reception']}><OrderForm /></ProtectedRoute>} />

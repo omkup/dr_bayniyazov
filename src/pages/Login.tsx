@@ -66,11 +66,11 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl stoma-gradient mb-2">
-            <Stethoscope className="w-8 h-8 text-primary-foreground" />
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-2xl bg-white shadow-md p-2 mb-2 border border-border overflow-hidden">
+            <img src="/logo-icon.png" alt="DR.BAYNIYAZOV" className="w-full h-full object-contain" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">StomaCRM</h1>
-          <p className="text-muted-foreground text-sm">Elektron Qabul va EMR tizimi</p>
+          <h1 className="text-2xl font-bold tracking-wide text-foreground">DR.BAYNIYAZOV</h1>
+          <p className="text-muted-foreground text-sm font-medium">Stomatologiya Klinikasi</p>
         </div>
 
         <Card className="border shadow-lg">
@@ -109,11 +109,9 @@ const Login = () => {
           </CardContent>
         </Card>
 
-        <p className="text-center text-sm text-muted-foreground">
-          Hisobingiz yo'qmi?{' '}
-          <Link to="/register" className="text-primary hover:underline font-medium">
-            Ro'yxatdan o'tish
-          </Link>
+        <p className="text-center text-xs text-muted-foreground">
+          Klinika xodimlari uchun yopiq tizim.<br />
+          Kirish uchun administrator bilan bog'laning.
         </p>
 
         {showDebug && (

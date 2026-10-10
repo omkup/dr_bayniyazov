@@ -19,9 +19,9 @@ const OrderForm = () => {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     patient_id: searchParams.get('patient') || '',
-    visit_datetime: '',
+    visit_datetime: searchParams.get('datetime') || '',
     complaint: '',
-    assigned_doctor_id: '',
+    assigned_doctor_id: searchParams.get('doctor') || '',
     reception_note: '',
   });
 
@@ -47,9 +47,39 @@ const OrderForm = () => {
     }
     setLoading(true);
 
+    // Overlap tekshiruvi: 30 daqiqalik oraliqda boshqa qabul bormi?
+    const requestedTime = new Date(form.visit_datetime);
+    if (isNaN(requestedTime.getTime())) {
+      toast.error("Noto'g'ri sana va vaqt kiritildi");
+      setLoading(false);
+      return;
+    }
+
+    const windowStart = new Date(requestedTime.getTime() - 29 * 60 * 1000).toISOString();
+    const windowEnd = new Date(requestedTime.getTime() + 29 * 60 * 1000).toISOString();
+
+    const { data: conflicts } = await supabase
+      .from('visit_orders')
+      .select('id, visit_datetime, status, patients(full_name)')
+      .eq('assigned_doctor_id', form.assigned_doctor_id)
+      .neq('status', 'CANCELLED')
+      .gte('visit_datetime', windowStart)
+      .lte('visit_datetime', windowEnd);
+
+    if (conflicts && conflicts.length > 0) {
+      const conflict = conflicts[0];
+      const patientName = (conflict as any).patients?.full_name || 'Bemor';
+      const conflictTime = new Date(conflict.visit_datetime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      toast.error("Vaqt to'qnashuvi (Overlap)!", {
+        description: `Shifokor soat ${conflictTime} da boshqa qabulda band (${patientName}). Iltimos, boshqa vaqtni tanlang.`
+      });
+      setLoading(false);
+      return;
+    }
+
     const insertData: any = {
       patient_id: form.patient_id,
-      visit_datetime: new Date(form.visit_datetime).toISOString(),
+      visit_datetime: requestedTime.toISOString(),
       complaint: form.complaint || null,
       price: 0,
       assigned_doctor_id: form.assigned_doctor_id,
@@ -66,7 +96,7 @@ const OrderForm = () => {
     }
 
     toast.success("Buyurtma yaratildi");
-    navigate('/reception/orders');
+    navigate('/reception/calendar');
     setLoading(false);
   };
 
